@@ -9,23 +9,23 @@ namespace Ship
     {
         [SerializeField] private FloatVariable _throttlePower;
         [SerializeField] private FloatVariable _rotationPower;
-        
+
         [SerializeField] private float _throttlePowerSimple;
         [SerializeField] private float _rotationPowerSimple;
 
         private Rigidbody2D _rigidbody;
-        
-        private void FixedUpdate()
+
+        private void Update()
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 Throttle();
             }
-        
+
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 SteerLeft();
-            } 
+            }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
                 SteerRight();
@@ -36,20 +36,20 @@ namespace Ship
         {
             _rigidbody = GetComponent<Rigidbody2D>();
         }
-    
+
         public void Throttle()
         {
-            _rigidbody.AddForce(transform.up * _throttlePower.Value, ForceMode2D.Force);
+            _rigidbody.AddForce(transform.up * _throttlePower.Value * Time.deltaTime, ForceMode2D.Force);
         }
 
         public void SteerLeft()
         {
-            _rigidbody.AddTorque(_rotationPower.Value, ForceMode2D.Force);
+            _rigidbody.AddTorque(_rotationPower.Value * Time.deltaTime, ForceMode2D.Force);
         }
 
         public void SteerRight()
         {
-            _rigidbody.AddTorque(-_rotationPower.Value, ForceMode2D.Force);
+            _rigidbody.AddTorque(-_rotationPower.Value * Time.deltaTime, ForceMode2D.Force);
         }
     }
 }
