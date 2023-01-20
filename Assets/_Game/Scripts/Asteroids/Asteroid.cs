@@ -9,7 +9,7 @@ namespace Asteroids
     public class Asteroid : MonoBehaviour
     {
         [SerializeField] private ScriptableEventInt _onAsteroidDestroyed;
-        
+
         [Header("Config:")]
         [SerializeField] private float _minForce;
         [SerializeField] private float _maxForce;
@@ -25,22 +25,40 @@ namespace Asteroids
         private Vector3 _direction;
         private int _instanceId;
 
+        public AsteroidSettings[] Settings;
+        private AsteroidSettings _setting;
+        public int Damage = 1;
+
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _instanceId = GetInstanceID();
-            
+            _setting = Settings[Random.Range(0, Settings.Length)];
+
             SetDirection();
             AddForce();
             AddTorque();
             SetSize();
+            SetColor();
+            SetDamage();
         }
-        
+
+        private void SetDamage()
+        {
+            Damage = _setting.AsteroidDamage;
+        }
+
+        private void SetColor()
+        {
+            SpriteRenderer sr = gameObject.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+            sr.color = _setting.Color;
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (string.Equals(other.tag, "Laser"))
             {
-               HitByLaser();
+                HitByLaser();
             }
         }
 
@@ -58,7 +76,7 @@ namespace Asteroids
                 Destroy(gameObject);
             }
         }
-        
+
         public void OnHitByLaserInt(int asteroidId)
         {
             if (_instanceId == asteroidId)
@@ -66,7 +84,7 @@ namespace Asteroids
                 Destroy(gameObject);
             }
         }
-        
+
         private void SetDirection()
         {
             var size = new Vector2(3f, 3f);
@@ -81,8 +99,8 @@ namespace Asteroids
 
         private void AddForce()
         {
-            var force = Random.Range(_minForce, _maxForce);
-            _rigidbody.AddForce( _direction * force, ForceMode2D.Impulse);
+            var force = Random.Range(_minForce, _maxForce) * _setting.speedMod;
+            _rigidbody.AddForce(_direction * force, ForceMode2D.Impulse);
         }
 
         private void AddTorque()
@@ -92,13 +110,13 @@ namespace Asteroids
 
             if (roll == 0)
                 torque = -torque;
-            
+
             _rigidbody.AddTorque(torque, ForceMode2D.Impulse);
         }
 
         private void SetSize()
         {
-            var size = Random.Range(_minSize, _maxSize);
+            var size = _setting.Scale;
             _shape.localScale = new Vector3(size, size, 0f);
         }
     }

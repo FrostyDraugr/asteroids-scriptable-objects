@@ -39,17 +39,17 @@ namespace Ship
 
         public void Throttle()
         {
-            _rigidbody.AddForce(transform.up * _throttlePower.Value * Time.deltaTime, ForceMode2D.Force);
+            _rigidbody.AddForce(transform.up * _throttlePower.Value * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         public void SteerLeft()
         {
-            _rigidbody.AddTorque(_rotationPower.Value * Time.deltaTime, ForceMode2D.Force);
+            _rigidbody.AddTorque(_rotationPower.Value * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         public void SteerRight()
         {
-            _rigidbody.AddTorque(-_rotationPower.Value * Time.deltaTime, ForceMode2D.Force);
+            _rigidbody.AddTorque(-_rotationPower.Value * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 }
