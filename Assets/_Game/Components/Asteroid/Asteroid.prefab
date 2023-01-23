@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc0551b212091374f8b5297c629dd059, type: 2}
   - {fileID: 11400000, guid: 4b4063483d84b90419d1ae74f94535d3, type: 2}
   - {fileID: 11400000, guid: 317188353a55e3d4da18847c6eb88bed, type: 2}
+  - {fileID: 11400000, guid: 1fadb550c160c4249903c4616f382553, type: 2}
   Damage: 1
 --- !u!50 &1784223117350305362
 Rigidbody2D:
